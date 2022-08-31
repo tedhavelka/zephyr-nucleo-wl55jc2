@@ -82,7 +82,7 @@ void main(void)
 
     while ( 1 )
     {
-	printk("Hello world - zztop -  %s\n", CONFIG_BOARD);
+	printk("Hello world - zztop 0830 -  %s\n", CONFIG_BOARD);
 
 //        rstatus = gpio_pin_toggle_dt(&led);
 //        rstatus = gpio_pin_toggle_dt(&ledblue);

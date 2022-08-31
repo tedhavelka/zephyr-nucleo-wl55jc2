@@ -1,0 +1,5 @@
+
+
+$ for file in `ls -d workspace-*`; do du -k ${file} | tail -n 1; done
+
+
