@@ -1,0 +1,11 @@
+/*
+ *  nucleo_wl55jc.overlay, to support bootloader development work
+ */
+
+
+/ {
+        aliases {
+                ledblue = &blue_led_1;
+                led1 = &blue_led_1;
+        };
+};
