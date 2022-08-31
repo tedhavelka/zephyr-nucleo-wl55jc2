@@ -5,13 +5,19 @@
  */
 
 
+// newlibc headers:
+#include <string.h>
 
+
+// Zephyr RTOS headers:
 #include <zephyr/zephyr.h>
 
 #include <zephyr/drivers/gpio.h>
 
+#include <drivers/uart.h>          // to provide uart_poll_in(), uart_poll_out()
 
 
+// custom app headers:
 #include "return-values.h"
 
 
@@ -63,7 +69,6 @@ static const struct device *dev_led_blue;
 
 static const struct device *dev_st_usart1;
 
-// - DEV 0830 END -
 
 
 
@@ -86,6 +91,31 @@ uint32_t initialize_st_usart1(void)
     }
 }
 
+
+
+
+uint32_t printk_cli(const char* message, const struct device *dev)   // - ROUTINE -
+{
+    uint32_t rstatus = ROUTINE_OK;
+    uint32_t message_byte_count = strlen(message);
+
+    if ( dev == NULL )
+    {
+        return Z__WARNING__NULL_DEVICE_POINTER;
+    }
+
+    for ( int i = 0; i < message_byte_count; i++ )
+    {
+        uart_poll_out(dev, message[i]);                // printk_cli() call to UART out API
+    }
+
+    return rstatus;
+}
+
+
+
+
+// - DEV 0830 END -
 
 
 
@@ -138,6 +168,10 @@ void main(void)
     if ( rstatus != Z__INFO__DEVICE_ALREADY_INITIALIZED_OR_NOT_NULL )
     {
 	printk("- warning - could not initialize STM32WL55JC usart1!\n");
+    }
+    else
+    {
+        printk_cli("* * * test of st usart1 serial port * * *\n\r", dev_st_usart1);
     }
 
 
